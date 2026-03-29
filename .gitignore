@@ -1,0 +1,25 @@
+# Binaries
+client
+server
+
+# Object files
+*.o
+*.a
+
+# Build artifacts
+*.so
+*.dylib
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Dependencies
+.deps/

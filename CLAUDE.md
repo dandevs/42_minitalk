@@ -55,3 +55,46 @@ Must include:
 - Signal handlers should be minimal and fast
 - Consider how to handle the lack of signal queuing
 - Server state management for handling multiple clients
+
+## Build verification
+
+- Run `make` to ensure that the project compiles
+
+## Evaluation
+
+### Prerequisites (Must Pass)
+- Non-empty submission with correct files
+- No Norm errors
+- No compilation errors or Makefile that re-links
+- Code must not contain evidence of cheating
+
+### General Instructions (5 points available)
+- **Makefile compiles both executables** → 1 point
+- **Server named 'server' displays its PID at launch** → 2 points
+- **Client named 'client' launches as: `/client PID_SERVER STRING_TO_PASS`** → 2 points
+
+### Mandatory Part (5+ points available)
+
+#### Message Transmission
+- Messages of any size can be transmitted
+- Messages received are displayed correctly by server
+- Server never remains blocked or displays incorrect characters
+- **Rate: 0 (failed) through 5 (excellent)**
+
+#### Simple Configuration (4 points available)
+- **Server can receive multiple strings without restart** → 1 point
+- **At most one global variable per program, or none** → 1 point
+- **Communication uses ONLY signals SIGUSR1 and SIGUSR2** → 3 points
+- **Rate: 0 (failed) through 5 (excellent)**
+
+### Bonus Part (only if mandatory is excellent)
+
+Bonuses are ONLY examined if the mandatory part is complete and perfect.
+
+#### Unicode Character Support
+- Both client and server support Unicode characters
+- **Points: Pass/Fail**
+
+#### Message Acknowledgment
+- Server confirms receipt of each message by sending a signal to client
+- **Points: Pass/Fail**
