@@ -1,0 +1,7 @@
+{
+  "C_Cpp.default.cStandard": "gnu99",
+  "clangd.arguments": [
+    "--header-insertion=never",
+    "-std=gnu99"
+  ]
+}
