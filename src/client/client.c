@@ -6,7 +6,7 @@
 /*   By: danimend <danimend@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 03:47:57 by danimend          #+#    #+#             */
-/*   Updated: 2026/03/30 04:49:34 by danimend         ###   ########.fr       */
+/*   Updated: 2026/03/30 05:47:39 by danimend         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,5 @@ int	main(int argc, char **argv)
 	while (str[i] && g_can_write == 1)
 		send_char(pid, (unsigned char)str[i++]);
 	send_char(pid, '\0');
-	printf("\nCOMPLETED\n");
 	return (0);
 }

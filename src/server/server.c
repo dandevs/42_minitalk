@@ -20,9 +20,8 @@ static void	handler(int sig, siginfo_t *info, void *context)
 {
 	static int				bit = 0;
 	static unsigned char	c = 0;
-	static pid_t			client_pid = 0;
 
-	client_pid = info->si_pid;
+	(void)context;
 	if (sig == SIGUSR1)
 		c |= (1 << bit);
 	bit++;
