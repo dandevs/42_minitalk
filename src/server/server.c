@@ -1,0 +1,55 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: danimend <danimend@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/30 03:47:56 by danimend          #+#    #+#             */
+/*   Updated: 2026/03/30 03:51:32 by danimend         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <signal.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <sys/types.h>
+#include "../shared/lib.h"
+
+static void	handler(int sig, siginfo_t *info, void *context)
+{
+	static int				bit = 0;
+	static unsigned char	c = 0;
+	static pid_t			client_pid = 0;
+
+	client_pid = info->si_pid;
+	if (sig == SIGUSR1)
+		c |= (1 << bit);
+	bit++;
+	if (bit == 8)
+	{
+		if (c == '\0')
+			kill(info->si_pid, SIGUSR2);
+		else
+			write(1, &c, 1);
+		c = 0;
+		bit = 0;
+	}
+	kill(info->si_pid, SIGUSR1);
+}
+
+int	main(void)
+{
+	printf("what the heck?\n");
+	struct sigaction	sa;
+
+	sa.sa_sigaction = handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_SIGINFO;
+
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
+	printf("%d\n", getpid());
+	while (1)
+		pause();
+}

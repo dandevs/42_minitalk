@@ -1,5 +1,6 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Isrc/shared
+CFLAGS = -g
+# CFLAGS = -Wall -Wextra -Werror -Isrc/shared
 SRCDIR = src
 
 CLIENT_SRC = $(shell find $(SRCDIR)/client $(SRCDIR)/shared -name "*.c")
