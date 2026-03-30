@@ -6,13 +6,12 @@
 /*   By: danimend <danimend@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 03:47:57 by danimend          #+#    #+#             */
-/*   Updated: 2026/03/30 05:47:39 by danimend         ###   ########.fr       */
+/*   Updated: 2026/03/30 08:58:26 by danimend         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
 #include <unistd.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
 #include "../shared/lib.h"
@@ -46,7 +45,7 @@ static void	send_char(pid_t pid, unsigned char c)
 	int	bit;
 
 	bit = 0;
-	while (bit < 8 && g_can_write != -1)
+	while (bit < 8)
 	{
 		g_can_write = 0;
 		if (c & (1 << bit))
@@ -54,7 +53,7 @@ static void	send_char(pid_t pid, unsigned char c)
 		else
 			kill(pid, SIGUSR2);
 		while (g_can_write == 0)
-			pause();
+			usleep(25);
 		bit++;
 	}
 }

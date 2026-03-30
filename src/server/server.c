@@ -6,7 +6,7 @@
 /*   By: danimend <danimend@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 03:47:56 by danimend          #+#    #+#             */
-/*   Updated: 2026/03/30 05:54:17 by danimend         ###   ########.fr       */
+/*   Updated: 2026/03/30 09:14:24 by danimend         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	handler(int sig, siginfo_t *info, void *context)
 {
 	static int				bit = 0;
 	static unsigned char	c = 0;
+	int						done = 0;
 
 	(void)context;
 	if (!g_active_pid)
@@ -36,6 +37,7 @@ static void	handler(int sig, siginfo_t *info, void *context)
 		if (c == '\0')
 		{
 			g_active_pid = 0;
+			done = 1;
 			kill(info->si_pid, SIGUSR2);
 		}
 		else
@@ -43,7 +45,8 @@ static void	handler(int sig, siginfo_t *info, void *context)
 		c = 0;
 		bit = 0;
 	}
-	kill(info->si_pid, SIGUSR1);
+	if (!done)
+		kill(info->si_pid, SIGUSR1);
 }
 
 int	main(void)
