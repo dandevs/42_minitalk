@@ -6,7 +6,7 @@
 /*   By: danimend <danimend@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 03:47:56 by danimend          #+#    #+#             */
-/*   Updated: 2026/03/30 09:14:24 by danimend         ###   ########.fr       */
+/*   Updated: 2026/03/30 09:20:16 by danimend         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,43 @@
 
 static volatile pid_t	g_active_pid;
 
+static int	is_same_client(pid_t client_pid)
+{
+	if (!g_active_pid)
+		g_active_pid = client_pid;
+	else if (g_active_pid != client_pid)
+		return (0);
+	return (1);
+}
+
+static void	process_received_char(unsigned char c, pid_t client_pid, int *done)
+{
+	if (c == '\0')
+	{
+		g_active_pid = 0;
+		*done = 1;
+		kill(client_pid, SIGUSR2);
+	}
+	else
+		write(1, &c, 1);
+}
+
 static void	handler(int sig, siginfo_t *info, void *context)
 {
 	static int				bit = 0;
 	static unsigned char	c = 0;
-	int						done = 0;
+	int						done;
 
 	(void)context;
-	if (!g_active_pid)
-		g_active_pid = info->si_pid;
-	else if (g_active_pid != info->si_pid)
+	if (!is_same_client(info->si_pid))
 		return ;
 	if (sig == SIGUSR1)
 		c |= (1 << bit);
 	bit++;
+	done = 0;
 	if (bit == 8)
 	{
-		if (c == '\0')
-		{
-			g_active_pid = 0;
-			done = 1;
-			kill(info->si_pid, SIGUSR2);
-		}
-		else
-			write(1, &c, 1);
+		process_received_char(c, info->si_pid, &done);
 		c = 0;
 		bit = 0;
 	}

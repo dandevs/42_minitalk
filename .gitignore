@@ -1,6 +1,6 @@
 # Binaries
-client
-server
+/client
+/server
 
 # Object files
 *.o
