@@ -6,7 +6,7 @@
 /*   By: danimend <danimend@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 03:47:56 by danimend          #+#    #+#             */
-/*   Updated: 2026/03/30 03:51:32 by danimend         ###   ########.fr       */
+/*   Updated: 2026/03/30 05:30:07 by danimend         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,16 @@ static void	handler(int sig, siginfo_t *info, void *context)
 
 int	main(void)
 {
-	printf("what the heck?\n");
 	struct sigaction	sa;
 
 	sa.sa_sigaction = handler;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_SIGINFO;
-
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
-	printf("%d\n", getpid());
+	ft_putnbr_fd(1, getpid());
+	write(1, "\n", 1);
 	while (1)
 		pause();
+	return (0);
 }
