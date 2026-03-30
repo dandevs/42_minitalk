@@ -6,7 +6,7 @@
 /*   By: danimend <danimend@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 03:47:56 by danimend          #+#    #+#             */
-/*   Updated: 2026/03/30 05:30:07 by danimend         ###   ########.fr       */
+/*   Updated: 2026/03/30 05:54:17 by danimend         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,28 @@
 #include <sys/types.h>
 #include "../shared/lib.h"
 
+static volatile pid_t	g_active_pid;
+
 static void	handler(int sig, siginfo_t *info, void *context)
 {
 	static int				bit = 0;
 	static unsigned char	c = 0;
 
 	(void)context;
+	if (!g_active_pid)
+		g_active_pid = info->si_pid;
+	else if (g_active_pid != info->si_pid)
+		return ;
 	if (sig == SIGUSR1)
 		c |= (1 << bit);
 	bit++;
 	if (bit == 8)
 	{
 		if (c == '\0')
+		{
+			g_active_pid = 0;
 			kill(info->si_pid, SIGUSR2);
+		}
 		else
 			write(1, &c, 1);
 		c = 0;
