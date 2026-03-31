@@ -6,7 +6,7 @@
 /*   By: danimend <danimend@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 03:47:57 by danimend          #+#    #+#             */
-/*   Updated: 2026/03/31 16:55:43 by danimend         ###   ########.fr       */
+/*   Updated: 2026/03/31 17:31:36 by danimend         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	main(int argc, char **argv)
 		ft_write_str(2, "Invalid parameters\n");
 		return (1);
 	}
-	pid = atoi(argv[1]);
+	pid = ft_atoi(argv[1]);
 	if (pid <= 0 || kill(pid, 0) == -1)
 	{
 		ft_write_str(2, "Error: invalid or unreachable PID\n");

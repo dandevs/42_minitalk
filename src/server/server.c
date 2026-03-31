@@ -6,14 +6,12 @@
 /*   By: danimend <danimend@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 03:47:56 by danimend          #+#    #+#             */
-/*   Updated: 2026/03/31 15:21:57 by danimend         ###   ########.fr       */
+/*   Updated: 2026/03/31 17:31:51 by danimend         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
 #include <unistd.h>
-#include <stdio.h>
-#include <errno.h>
 #include <sys/types.h>
 #include "../shared/lib.h"
 
