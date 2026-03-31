@@ -6,22 +6,29 @@
 /*   By: danimend <danimend@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 03:47:56 by danimend          #+#    #+#             */
-/*   Updated: 2026/03/30 09:20:16 by danimend         ###   ########.fr       */
+/*   Updated: 2026/03/31 15:21:57 by danimend         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <errno.h>
 #include <sys/types.h>
 #include "../shared/lib.h"
 
 static volatile pid_t	g_active_pid;
 
-static int	is_same_client(pid_t client_pid)
+static int	is_same_client(pid_t client_pid, int *bit, unsigned char *c)
 {
 	if (!g_active_pid)
 		g_active_pid = client_pid;
+	else if (g_active_pid != client_pid && kill(g_active_pid, 0) == -1)
+	{
+		g_active_pid = client_pid;
+		*bit = 0;
+		*c = 0;
+	}
 	else if (g_active_pid != client_pid)
 		return (0);
 	return (1);
@@ -46,7 +53,7 @@ static void	handler(int sig, siginfo_t *info, void *context)
 	int						done;
 
 	(void)context;
-	if (!is_same_client(info->si_pid))
+	if (!is_same_client(info->si_pid, &bit, &c))
 		return ;
 	if (sig == SIGUSR1)
 		c |= (1 << bit);
