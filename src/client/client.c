@@ -6,7 +6,7 @@
 /*   By: danimend <danimend@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 03:47:57 by danimend          #+#    #+#             */
-/*   Updated: 2026/03/30 08:58:26 by danimend         ###   ########.fr       */
+/*   Updated: 2026/03/31 16:55:43 by danimend         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 3)
 	{
-		ft_write_str(2, "Invalid parameters");
+		ft_write_str(2, "Invalid parameters\n");
 		return (1);
 	}
 	pid = atoi(argv[1]);
